@@ -10,9 +10,11 @@ import PostView from '../PostView';
 
 
 const Container = styled.div`
-  background-color: #c2c2c2;
-  padding: 20px;
-  color: darkslateblue;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 5%;
+  background: repeating-linear-gradient( 90deg, ${({ theme }) => theme.main}, ${({ theme }) => theme.secondary} 25%, ${({ theme }) => theme.main} 50%);
 `;
 
 
