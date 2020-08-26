@@ -17,8 +17,6 @@ const Container = styled.div`
   background: repeating-linear-gradient( 90deg, ${({ theme }) => theme.main}, ${({ theme }) => theme.secondary} 25%, ${({ theme }) => theme.main} 50%);
 `;
 
-
-
 const Home: React.FC = () => {
 
   const dispatch = useDispatch();
