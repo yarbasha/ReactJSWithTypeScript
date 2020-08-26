@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { User } from '../../redux/users/types';
 import { Post } from '../../redux/posts/types';
 import { Comment } from '../../redux/comments/types';
+import { Button, Title } from '../Elements';
 
 const fadein = keyframes`
   from {
@@ -50,7 +51,7 @@ const ModalContainer = styled.div<{ closing: boolean }>`
   transition: transform 1s;
 `;
 
-const ModalHeader = styled.div`
+const ModalHeader = styled.header`
   width: 100%;
   height: 20%;
   border: solid 3px ${({ theme }) => theme.main};
@@ -61,12 +62,9 @@ const ModalHeader = styled.div`
   padding: 0px 20px;
 `;
 
-const HeaderTitle = styled.h2`
-  color: ${({ theme }) => theme.main};
-  text-align: center;
-  letter-spacing: 1px;
+const HeaderTitle = styled(Title)`
   margin-top: 10px;
-  text-transform: uppercase;
+  text-align: center;
   margin-left: auto;
   color: ${({ theme }) => theme.postFontColor};
   ::before, ::after {
@@ -75,12 +73,24 @@ const HeaderTitle = styled.h2`
     height: 0;
     border: solid 8px;
     display: inline-block;
+    border-color: transparent;
   }
   ::before {
-    border-color: transparent transparent transparent ${({ theme }) => theme.postFontColor};
+    border-left-color: ${({ theme }) => theme.postFontColor};
   }
   ::after{
-    border-color: transparent ${({ theme }) => theme.postFontColor} transparent transparent ;
+    border-right-color: ${({ theme }) => theme.postFontColor}  ;
+  }
+`;
+
+const SectionTitle = styled(HeaderTitle)`
+  margin-left: initial;
+  ::after, ::before {
+    width: 100px;
+    height: 8px;
+    border: initial;
+    border-top: solid 2px ${({ theme }) => theme.postFontColor};
+    margin: 0 10px;
   }
 `;
 
@@ -116,32 +126,7 @@ const ModalContent = styled.div`
   }
 `;
 
-const Title = styled.h3`
-  margin-top: 10px;
-  text-align: center;
-  color: ${({ theme }) => theme.postFontColor};
-  ::after, ::before {
-    content: "";
-    width: 100px;
-    height: 8px;
-    border-top: solid 2px ${({ theme }) => theme.postFontColor};
-    display: inline-block;
-  }
-  ::before {
-    margin-right: 10px;
-  }
-  ::after {
-    margin-left: 10px;
-  }
-`;
-
-const UserInfo = styled.div`
-  padding: 10px 20px;
-  font-size: 18px;
-  font-weight: 500;
-`;
-
-const CommentInfo = styled.div`
+const Info = styled.div`
   padding: 10px 20px;
   font-size: 18px;
   font-weight: 500;
@@ -156,7 +141,7 @@ const Span = styled.span`
   }
 `;
 
-const B = styled.b`
+const Bold = styled.b`
   color: ${({ theme }) => theme.postFontColor};
 `;
 
@@ -168,26 +153,10 @@ const ModalFooter = styled.footer`
   padding-right: 20px;
 `;
 
-const Button = styled.button`
-  background-color: ${({ theme }) => theme.main};
-  padding: 10px 20px;
-  color: ${({ theme }) => theme.postFontColor} ;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: .5px;
-  border: solid 2px ${({ theme }) => theme.postFontColor};
-  border-radius: 5px;
-  cursor: pointer;
-  align-self: flex-end;
-  margin-bottom: 10px;
-  transition: .5s;
-  :hover {
-    background-color: ${({ theme }) => theme.postFontColor};
-    color: ${({ theme }) => theme.main};
-    border: solid 2px ${({ theme }) => theme.main};
-  }
+const ModalButton = styled(Button)`
+  margin: 0;
+  align-self: initial;
 `;
-
 
 interface Props {
   user: User;
@@ -216,23 +185,23 @@ const ModalView: React.FC<Props> = ({ post, user, comments, toggle }) => {
           <Close onClick={closeModal}>&times;</Close>
         </ModalHeader>
         <ModalContent>
-          <Title>Author Information</Title>
-          <UserInfo>
-            <Span><B>Name: </B>{user.name}</Span>
-            <Span><B>Email: </B>{user.email}</Span>
-            <Span><B> City: </B>{user.address.city}</Span>
-            <Span><B> Phone: </B>{user.phone}</Span>
-          </UserInfo>
-          <Title>Comments</Title>
+          <SectionTitle>Author Information</SectionTitle>
+          <Info>
+            <Span><Bold>Name: </Bold>{user.name}</Span>
+            <Span><Bold>Email: </Bold>{user.email}</Span>
+            <Span><Bold> City: </Bold>{user.address.city}</Span>
+            <Span><Bold> Phone: </Bold>{user.phone}</Span>
+          </Info>
+          <SectionTitle>Comments</SectionTitle>
           {comments.map(comment =>
-            <CommentInfo key={comment.id}>
-              <Span><B>Name: </B>{comment.name}</Span>
-              <Span><B>Email: </B>{comment.email}</Span>
-              <Span><B>Comment: </B>{comment.body}</Span>
-            </CommentInfo>)}
+            <Info key={comment.id}>
+              <Span><Bold>Name: </Bold>{comment.name}</Span>
+              <Span><Bold>Email: </Bold>{comment.email}</Span>
+              <Span><Bold>Comment: </Bold>{comment.body}</Span>
+            </Info>)}
         </ModalContent>
         <ModalFooter>
-          <Button onClick={closeModal}>OK</Button>
+          <ModalButton onClick={closeModal}>Close</ModalButton>
         </ModalFooter>
       </ModalContainer>
     </Modal>

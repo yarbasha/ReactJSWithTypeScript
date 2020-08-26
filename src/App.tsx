@@ -11,6 +11,7 @@ function App() {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <Main />
+        <Home />
       </ThemeProvider>
     </Provider>
   );

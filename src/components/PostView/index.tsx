@@ -4,6 +4,7 @@ import { User } from '../../redux/users/types';
 import { Post } from '../../redux/posts/types';
 import { Comment } from '../../redux/comments/types';
 import ModalView from '../Modal';
+import { Button, P, Title } from '../Elements';
 
 const postAnimation = keyframes`
   0%{
@@ -42,46 +43,10 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const H2 = styled.h2`
-  color: ${({ theme }) => theme.main};
+const HeaderTitle = styled(Title)`
+  font-size: 22px;
   text-align: center;
-  letter-spacing: 1px;
-  margin-top: 10px;
-  text-transform: uppercase;
 `;
-
-const H4 = styled.h4`
-  color: ${({ theme }) => theme.postFontColor};
-  line-height: 22px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  text-transform: capitalize;
-  letter-spacing: 0.5px;
-  ::after{
-    content: "."
-  }
-`;
-
-const Button = styled.button`
-  background-color: ${({ theme }) => theme.main};
-  padding: 10px 20px;
-  color: ${({ theme }) => theme.postFontColor} ;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: .5px;
-  border: solid 2px ${({ theme }) => theme.postFontColor};
-  border-radius: 5px;
-  cursor: pointer;
-  align-self: flex-end;
-  margin-bottom: 10px;
-  transition: .5s;
-  :hover {
-    background-color: ${({ theme }) => theme.postFontColor};
-    color: ${({ theme }) => theme.main};
-    border: solid 2px ${({ theme }) => theme.main};
-  }
-`;
-
 
 interface Props {
   user: User;
@@ -99,8 +64,8 @@ const PostView: React.FC<Props> = ({ post, user, comments }) => {
   return (
     <Border>
       <Container>
-        <H2>{post.title}</H2>
-        <H4>{post.body}</H4>
+        <HeaderTitle>{post.title}</HeaderTitle>
+        <P>{post.body}</P>
         <Button onClick={toggle}>More Details</Button>
         {open &&
           <ModalView post={post} user={user} comments={comments} toggle={toggle} />}

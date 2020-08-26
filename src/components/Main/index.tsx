@@ -9,6 +9,7 @@ import ModalView from '../Modal';
 import { Post } from '../../redux/posts/types';
 import { User } from '../../redux/users/types';
 import { Comment } from '../../redux/comments/types';
+import { Button, P, Title } from '../Elements';
 
 const Container = styled.div`
   background: repeating-linear-gradient( 90deg, ${({ theme }) => theme.main}, ${({ theme }) => theme.secondary} 25%, ${({ theme }) => theme.main} 50%);
@@ -26,17 +27,38 @@ const Container = styled.div`
   }
 `;
 
+const Year = styled.div<{ text: string }>`
+  position: relative;
+  height: 30px;
+  ::after {
+    content: "${({ text }) => text}";
+    text-align: center;
+    width: 60px;
+    color: #fff;
+    background-color: coral;
+    border: solid 0.5px #fff;
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    margin-left: -30px;
+    border-radius: 5px;
+  }
+`;
+
 const Content = styled.div<{ right: boolean }>`
   background: linear-gradient(to right, ${({ theme }) => theme.postColor} 0%, ${({ theme }) => theme.secondary} 50%, ${({ theme }) => theme.postColor} 100%);
   float: ${({ right }) => right ? 'right' : 'left'};
   padding: 10px 10px;
   width: calc(50% - 25px);
   position: relative;
-  ::after {
+  margin-bottom: 10px;
+  ::after, ::before {
     content: '';
-    border: solid 10px;
     position: absolute;
     top: 15px;
+  } 
+  ::after {
+    border: solid 10px;
     border-color: transparent;
     ${({ right }) => right ? css`
       border-right-color:  ${({ theme }) => theme.postColor};
@@ -47,14 +69,11 @@ const Content = styled.div<{ right: boolean }>`
     `}
   }
   ::before {
-    content: '';
     width: 20px;
     height: 20px;
     border-radius: 50%;
     background-color: ${({ theme }) => theme.postColor};
     border: solid 3px ${({ theme }) => theme.postFontColor};
-    position: absolute;
-    top: 15px;
     ${({ right }) => right ? css`
       left: -35px;
     `: css`
@@ -67,48 +86,13 @@ const Clear = styled.div`
   clear: both;
 `;
 
-const Title = styled.h3`
-  color: ${({ theme }) => theme.main};
-  letter-spacing: 1px;
-  text-transform: uppercase;
-`;
-
-const P = styled.p`
-  color: ${({ theme }) => theme.postFontColor};
-  line-height: 22px;
-  margin-top: 10px;
-  text-transform: capitalize;
-  letter-spacing: 0.5px;
-  ::after{
-    content: "."
-  }
-`;
-
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
 `;
 
-const Button = styled.button`
-  background-color: ${({ theme }) => theme.main};
-  padding: 10px 20px;
-  color: ${({ theme }) => theme.postFontColor} ;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: .5px;
-  border: solid 2px ${({ theme }) => theme.postFontColor};
-  border-radius: 5px;
-  cursor: pointer;
-  align-self: flex-end;
-  margin-top: 10px;
-  transition: .5s;
-  :hover {
-    background-color: ${({ theme }) => theme.postFontColor};
-    color: ${({ theme }) => theme.main};
-    border: solid 2px ${({ theme }) => theme.main};
-  }
-`;
+
 
 interface Props {
   post: Post;
@@ -123,6 +107,7 @@ const View: React.FC<Props> = ({ post, user, comments }) => {
   }
   return (
     <>
+      {(post.id % 10 === 0 || post.id === 1) && <Year text={Math.round(2020 - post.id / 10).toString()} />}
       <Content right={post.id % 2 === 0}>
         <Title>{post.title}</Title>
         <P>{post.body}</P>
